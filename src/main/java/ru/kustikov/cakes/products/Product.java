@@ -22,5 +22,5 @@ public class Product {
 
     private String type;
 
-    private byte[] image;
+    private String image;
 }

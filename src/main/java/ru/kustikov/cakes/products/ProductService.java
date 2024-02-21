@@ -1,12 +1,10 @@
-package ru.kustikov.cakes.service;
+package ru.kustikov.cakes.products;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.kustikov.cakes.products.Product;
@@ -17,11 +15,12 @@ import java.util.List;
 @Service
 @Slf4j
 public class ProductService {
+
+    @Autowired
+    private RestTemplate restTemplate;
     private final String URL = "http://localhost:4300/api/v1/product";
 
     public ResponseEntity<List<Product>> getProducts() {
-        RestTemplate restTemplate = new RestTemplate();
-
         ResponseEntity<String> response = restTemplate.getForEntity(URL + "/get-all", String.class);
         if (response.getStatusCode().is2xxSuccessful()) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -40,7 +39,6 @@ public class ProductService {
     }
 
     public ResponseEntity<List<Product>> getProductsByUsername(String username) {
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("username", username);
 
@@ -60,6 +58,20 @@ public class ProductService {
         } else {
             log.error("Запрос завершился неудачно. Код ответа: " + response.getStatusCode().value());
             return ResponseEntity.status(response.getStatusCode()).build();
+        }
+    }
+
+    public ResponseEntity<?> save(Product product) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Product> request = new HttpEntity<>(product, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(URL + "/save", request, String.class);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return ResponseEntity.ok("Product saved successfully");
+        } else {
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
         }
     }
 

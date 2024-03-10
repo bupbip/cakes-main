@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.kustikov.cakes.products.Product;
 
 import java.io.IOException;
 import java.util.List;
@@ -70,6 +69,20 @@ public class ProductService {
 
         if (response.getStatusCode().is2xxSuccessful()) {
             return ResponseEntity.ok("Product saved successfully");
+        } else {
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+        }
+    }
+
+    public ResponseEntity<?> delete(Product product) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Product> request = new HttpEntity<>(product, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(URL + "/delete", request, String.class);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return ResponseEntity.ok("Product deleted successfully");
         } else {
             return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
         }

@@ -20,7 +20,9 @@ public class Product {
 
     private String comment;
 
-    private String type;
+    private String productType;
 
     private String image;
+
+    private String ownerUsername;
 }

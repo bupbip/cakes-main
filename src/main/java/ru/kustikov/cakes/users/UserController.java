@@ -3,7 +3,6 @@ package ru.kustikov.cakes.users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kustikov.cakes.products.Product;
 
 import java.util.List;
 

@@ -28,4 +28,10 @@ public class ProductController {
         productService.save(product);
         return ResponseEntity.ok(product);
     }
+
+    @PostMapping("/delete-product")
+    public ResponseEntity<Product> deleteProduct(@RequestBody Product product) {
+        productService.delete(product);
+        return ResponseEntity.ok(product);
+    }
 }

@@ -1,6 +1,8 @@
 package ru.kustikov.cakes.users;
 
 import lombok.Data;
+import ru.kustikov.cakes.filling.Filling;
+import ru.kustikov.cakes.producttype.ProductType;
 import ru.kustikov.cakes.socials.SocialNetwork;
 
 import java.sql.Timestamp;
@@ -25,6 +27,10 @@ public class User {
     private String image;
 
     private List<SocialNetwork> socialNetworks;
+
+    private List<ProductType> productTypes;
+
+    private List<Filling> fillings;
 
     private Timestamp lastActivity;
 }

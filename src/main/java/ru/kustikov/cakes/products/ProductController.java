@@ -3,6 +3,8 @@ package ru.kustikov.cakes.products;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.kustikov.cakes.producttype.ProductType;
+import ru.kustikov.cakes.producttype.ProductTypeService;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductTypeService productTypeService;
 
     @GetMapping("/get-all")
 //    @CrossOrigin(origins = "http://localhost:4200")
@@ -33,5 +36,11 @@ public class ProductController {
     public ResponseEntity<Product> deleteProduct(@RequestBody Product product) {
         productService.delete(product);
         return ResponseEntity.ok(product);
+    }
+
+    @PostMapping("/delete-product-type")
+    public ResponseEntity<?> deleteProductType(@RequestBody Long productTypeId) {
+        productTypeService.delete(productTypeId);
+        return ResponseEntity.ok("Success");
     }
 }

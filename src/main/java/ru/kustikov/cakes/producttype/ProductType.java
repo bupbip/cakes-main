@@ -16,5 +16,5 @@ public class ProductType {
 
     private boolean canCount;
 
-    private ArrayList<Long> fillings;
+    private ArrayList<Integer> fillings;
 }

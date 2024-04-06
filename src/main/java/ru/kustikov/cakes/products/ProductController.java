@@ -17,12 +17,13 @@ public class ProductController {
     private final ProductTypeService productTypeService;
 
     @GetMapping("/get-all")
-//    @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<List<Product>> getAll(@RequestParam(required = false) String username) {
+    public ResponseEntity<List<Product>> getAll(@RequestParam(required = false) String username,
+                                                @RequestParam(required = false) Integer skip,
+                                                @RequestParam(required = false) Integer limit) {
         if (username != null && !username.isEmpty()) {
             return productService.getProductsByUsername(username);
         } else {
-            return productService.getProducts();
+            return productService.getProducts(skip, limit);
         }
     }
 

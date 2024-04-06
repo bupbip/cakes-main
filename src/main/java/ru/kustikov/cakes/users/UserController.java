@@ -25,7 +25,8 @@ public class UserController {
     }
 
     @GetMapping("/get-confectioners")
-    public ResponseEntity<List<User>> getAllConfectioners() {
-        return userService.getAllConfectioners();
+    public ResponseEntity<List<User>> getAllConfectioners(@RequestParam Integer skip,
+                                                          @RequestParam Integer limit) {
+        return userService.getAllConfectioners(skip, limit);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,9 +56,19 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<List<User>> getAllConfectioners() {
+    public ResponseEntity<List<User>> getAllConfectioners(Integer skip, Integer limit) {
+        RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<String> response = restTemplate.getForEntity(URL + "/confectioners", String.class);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/confectioners")
+                .queryParam("skip", skip)
+                .queryParam("limit", limit);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                builder.toUriString(),
+                HttpMethod.GET,
+                null,
+                String.class);
+
         if (response.getStatusCode().is2xxSuccessful()) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,8 +20,23 @@ public class ProductService {
     private RestTemplate restTemplate;
     private final String URL = "http://localhost:4300/api/v1/product";
 
-    public ResponseEntity<List<Product>> getProducts() {
-        ResponseEntity<String> response = restTemplate.getForEntity(URL + "/get-all", String.class);
+    public ResponseEntity<List<Product>> getProducts(Integer skip, Integer limit) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL + "/get-all")
+                .queryParam("skip", skip)
+                .queryParam("limit", limit);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                builder.toUriString(),
+                HttpMethod.GET,
+                null,
+                String.class);
+
+        return getListResponseEntity(response);
+    }
+
+    private ResponseEntity<List<Product>> getListResponseEntity(ResponseEntity<String> response) {
         if (response.getStatusCode().is2xxSuccessful()) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
@@ -44,20 +60,7 @@ public class ProductService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<String> response = restTemplate.exchange(URL + "/get-all?username={username}", HttpMethod.GET, entity, String.class, username);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                List<Product> productList = objectMapper.readValue(response.getBody(), new TypeReference<>() {
-                });
-                return ResponseEntity.ok(productList);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ResponseEntity.status(500).build();
-            }
-        } else {
-            log.error("Запрос завершился неудачно. Код ответа: " + response.getStatusCode().value());
-            return ResponseEntity.status(response.getStatusCode()).build();
-        }
+        return getListResponseEntity(response);
     }
 
     public ResponseEntity<?> save(Product product) {

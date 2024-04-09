@@ -1,6 +1,8 @@
 package ru.kustikov.cakes.products;
 
 import lombok.Data;
+import ru.kustikov.cakes.filling.Filling;
+import ru.kustikov.cakes.producttype.ProductType;
 
 import java.math.BigDecimal;
 
@@ -16,11 +18,11 @@ public class Product {
 
     private Double weight;
 
-    private String topping;
+    private Filling topping;
 
     private String comment;
 
-    private String productType;
+    private ProductType productType;
 
     private String image;
 

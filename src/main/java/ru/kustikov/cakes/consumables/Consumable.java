@@ -13,4 +13,6 @@ public class Consumable {
     private Double threshold;
 
     private String quantityType;
+
+    private String userId;
 }

@@ -33,4 +33,6 @@ public class User {
     private List<Filling> fillings;
 
     private Timestamp lastActivity;
+
+    private Object subscriptions;
 }

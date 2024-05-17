@@ -35,4 +35,6 @@ public class User {
     private Timestamp lastActivity;
 
     private Object subscriptions;
+
+    private Object feedbacksTo;
 }

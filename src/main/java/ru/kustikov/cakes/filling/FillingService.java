@@ -29,7 +29,8 @@ public class FillingService {
                 URL + "/save",
                 HttpMethod.POST,
                 request,
-                new ParameterizedTypeReference<List<Filling>>() {});
+                new ParameterizedTypeReference<List<Filling>>() {
+                });
 
         if (response.getStatusCode().is2xxSuccessful()) {
             return response;

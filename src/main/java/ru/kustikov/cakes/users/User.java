@@ -30,9 +30,13 @@ public class User {
 
     private List<ProductType> productTypes;
 
+    private Object consumables;
+
     private List<Filling> fillings;
 
     private Timestamp lastActivity;
 
     private Object subscriptions;
+
+    private Object feedbacksTo;
 }

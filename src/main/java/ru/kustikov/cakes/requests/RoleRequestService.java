@@ -66,4 +66,18 @@ public class RoleRequestService {
             return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
         }
     }
+
+    public ResponseEntity<String> save(RoleRequest roleRequest) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<RoleRequest> request = new HttpEntity<>(roleRequest, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(URL + "/save", request, String.class);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return ResponseEntity.ok("Заявка отклонена");
+        } else {
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+        }
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,11 @@ public class RoleRequestController {
     @PostMapping("/decline")
     public ResponseEntity<String> decline(@RequestBody RoleRequest request) {
         return roleRequestService.decline(request);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<String> save(@RequestBody RoleRequest request) {
+        return roleRequestService.save(request);
     }
 
 }
